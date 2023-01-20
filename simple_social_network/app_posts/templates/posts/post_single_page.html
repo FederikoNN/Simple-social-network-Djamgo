@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ object.title }}</title>
+</head>
+<body>
+
+      <h1>{{ photopost.title }}</h1>
+
+        <img src="{{ media_url }}{{ photopost.image.url }}" width="250">
+      {% if request.user.is_authenticated %}
+      <p>{{ photopost.description }}<br>
+                  <form method="post">
+                      {% csrf_token %}
+                      <button type="submit" name="like_photo" value="{{ object.id }}">Классное фото</button>
+                  </form><br>
+            <i>Дата публикации: </i>{{ photopost.date_create }} | <i>Количество лайков:</i> {{ object.likes }}
+      </p>
+
+                <p>
+                      <form method="post">
+                      {% csrf_token %}
+                      <button type="submit" name="subscribe" value="{{ photopost.user.id }}">Подписаться на автора</button>
+                  </form>
+                </p>
+      {% if subscribes %}
+        <h3>Вы подписаны на авторов:</h3>
+          {% for sub in subscribes %}
+              <li><i>Автор: </i>{{ sub.user_following.username }}<br>
+              </li>
+          {% endfor %}
+            <a href="{% url 'subscribe' %}">
+                <button>Посмотреть мои подписки</button>
+            </a>
+      {% else %}
+
+      {% endif %}
+{% endif %}
+      <h3>Комментарии:</h3>
+          {% if comments %}
+      <ul>
+          {% for comment in comments %}
+              <li><i>Автор: </i>{{ comment.user.username }}<br>{{ comment.description }}
+              <br><i>Количество лайков: </i>{{ comment.likes }}
+                  {% if request.user.is_authenticated %}
+                  <form method="post">
+                      {% csrf_token %}
+                      <button type="submit" name="like_comment" value="{{ comment.id }}">Нравится</button>
+                  </form>
+                  {% endif %}
+                  </p></li>
+          {% endfor %}
+      </ul>
+      {% else %}
+            <p>Комментариев нет</p>
+      {% endif %}
+      <h3>Добавить комментарий:</h3>
+      {% if request.user.is_authenticated %}
+    <form method="post" action="/posts/{{ post.id }}/post_single_page/" autocomplete="off">
+        {% csrf_token %}
+        {% if request.user.is_authenticated %}
+            {{ comment_form.user_name.as_hidden }}
+            {{ comment_form.description }}
+        {% else %}
+            {{ comment_form.as_p }}
+        {% endif %}
+        <button type="submit">Сохранить</button>
+    </form>
+        {% else %}
+<p>Добавлять комментарии могут только зарегистрированные пользователи</p>
+    {% endif %}
+
+</body>
+</html>

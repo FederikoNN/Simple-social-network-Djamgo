@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Небольшая социальная сеть</title>
+</head>
+<body>
+<h1>Небольшая социальная сеть</h1>
+<br>
+<a href="{% url 'top10' %}">
+    <button>Посмотреть ТОП-10 фотографий</button><br>
+</a><br>
+{% if request.user.is_authenticated %}
+Добро пожаловать на сайт, {{ request.user.username }} !
+<a href="{% url 'logout' %}">
+    <button>Выйти</button>
+</a><br>
+<br>
+{% if request.user.is_authenticated %}
+<a href="/post_creation_page/">
+    <button>Добавить запись</button>
+</a>
+{% endif %}
+{% else %}
+Вы неавторизованы на нашем сайте. <a href="{% url 'login' %}">
+    <button>Войти</button></a> или <a href="{% url 'register' %}">
+    <button>Зарегистрироваться</button>
+</a><br>
+{% endif %}
+{% if posts_list %}
+<ul>
+    {% for post in posts_list %}
+    <li>
+        <a href="/posts/{{ post.id }}/post_single_page/"><img src="../media/{{ post.image }}" width="100"><br>{{ post.title }}</a><br>
+        Автор: {{ post.user.username }}<br>
+        <i>Дата создания: </i>{{ post.date_create }} | Количество лайков: {{ post.likes }} | Комментариев: {{ post.activity }}
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+<br>
+{% else %}
+<p>Новостей нет</p>
+{% endif %}
+</body>
+</html>

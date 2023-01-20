@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить фото</title>
+</head>
+<body>
+    <h3>Добавить фото</h3>
+    <br>
+    {% if request.user.is_authenticated %}
+    <form method="post" action="/post_creation_page/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    {% else %}
+Добавлять новости могут только верифицированные пользователи. Обратитесь к администратору сайта.
+    {% endif %}
+</body>
+</html>
