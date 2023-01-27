@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('app_posts.urls')),
     path('', include('app_users.urls')),
     path('api/', include('apps_api.urls')),
+    path('api/drf-auth/', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:

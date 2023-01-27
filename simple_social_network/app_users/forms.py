@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class RegisterForm(UserCreationForm):
     city = forms.CharField(max_length=30, required=False, help_text='Город')
-    phone = forms.IntegerField(required=True, help_text='Телефон')
+    phone = forms.IntegerField(required=False, help_text='Телефон')
 
     class Meta:
         model = User

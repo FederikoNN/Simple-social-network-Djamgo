@@ -17,7 +17,7 @@ class PhotoPostForm(forms.ModelForm):
 
 
 class UploadPostsForm(forms.Form):
-    file = forms.FileField()
+    file = forms.ImageField()
 
 
 class PostCommentForm(forms.ModelForm):
@@ -25,11 +25,3 @@ class PostCommentForm(forms.ModelForm):
         model = Comment
         fields = '__all__'
         exclude = ('post_comment', 'user', 'likes')
-        # widgets = {
-        #     'user_name': TextInput(attrs={'autocomplete': 'off'}),
-        # }
-
-# class TagsForm(forms.ModelForm):
-#     class Meta:
-#         model = Tag
-#         fields = '__all__'
